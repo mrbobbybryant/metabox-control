@@ -1,11 +1,11 @@
 # Metabox Control
 **Table of Contents**
 
-- [Introduction]()
-- [Installation]()
-- [API Documentation]()
-- [Usage]()
-- [Roadmap]()
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [API Documentation](#api_documentation)
+- [Usage](#usage)
+- [Roadmap](#roadmap)
 
 ### Introduction
 Metabox Control is a small Javascript API that allows you to take back control of your Page edit screen. One metabox at a time. Metabox Control allows you to **control** when metaboxes are rendered to the screen.
