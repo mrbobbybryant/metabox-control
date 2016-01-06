@@ -170,13 +170,6 @@ var metaboxControl = (function() {
 
 }());
 
-console.log(metaboxControl.getTemplates());
-metaboxControl.addTemplate( 'page-one.php', ['mb_one']);
-console.log(metaboxControl.getTemplates());
-metaboxControl.addTemplate( 'page-two.php', ['mb_two']);
-console.log(metaboxControl.getTemplates());
-metaboxControl.initialize();
-
 // TODO
 //get list of default WordPress metaboxes
 //create external API method to hide default metaboxes
