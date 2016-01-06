@@ -86,7 +86,7 @@ metaboxControl.initialize();
 
 In the example below I will be simiulating the adding of two page template ( **page-one.php** and **page-two.php** ), as well as a few metabox( **mb_one**, **mb_three** and **mb_two** ). Again these will depend on your implementation, and this simply an example.
 ```js
-metaboxControl.addTemplate( 'page-one.php', ['mb_one', 'mb_three]);
+metaboxControl.addTemplate( 'page-one.php', ['mb_one', 'mb_three']);
 metaboxControl.addTemplate( 'page-two.php', ['mb_two']);
 metaboxControl.initialize();
 ```
