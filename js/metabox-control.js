@@ -11,7 +11,14 @@ var metaboxControl = (function( window ) {
     //======================================================================
 
     var setInitialState = function( initialStateData ) {
-        return setState( { event: 'INITIAL_STATE', initialObject : initialStateData } );
+        /**
+         * Check to see if we got any Templates from the WordPress Database.
+         */
+        if ( initialStateData.data ) {
+            return setState( { event: 'INITIAL_STATE', initialObject : initialStateData.data } );
+        }
+
+        return false;
     };
 
     var setState = function( stateRequest ) {
@@ -23,13 +30,13 @@ var metaboxControl = (function( window ) {
         switch( stateRequest.event ) {
 
             case 'ADD_TEMPLATE':
-                updateState( addObject( stateRequest.newObject ) , checkState );
+                updateState( addObject( stateRequest.newObject ) , checkState, updateTemplateEvents );
                 break;
             case 'REMOVE_TEMPLATE':
-                updateState( removeObject( stateRequest.template ), checkState );
+                updateState( removeObject( stateRequest.template ), checkState, updateTemplateEvents );
                 break;
             case 'INITIAL_STATE':
-                updateState( stateRequest.initialObject, checkState );
+                updateState( stateRequest.initialObject, checkState, updateTemplateEvents );
         }
     };
 
@@ -42,7 +49,7 @@ var metaboxControl = (function( window ) {
         return _.isEqual( newState, registeredTemplates );
     };
 
-    var updateState = function( newState, callback ) {
+    var updateState = function( newState, callback, update ) {
 
         /**
          * Typechecking Inputs
@@ -50,10 +57,11 @@ var metaboxControl = (function( window ) {
         is_array( newState );
         is_func( callback );
 
-        var update = callback( newState );
+        var checkState = callback( newState );
 
-        if ( ! update ) {
-            return ( registeredTemplates = newState );
+        if ( ! checkState ) {
+            registeredTemplates = newState;
+            update();
         }
     };
 
@@ -133,7 +141,10 @@ var metaboxControl = (function( window ) {
 
         request.send();
     };
-
+    var updateTemplateEvents = function() {
+        register_metabox_event( window, 'load', getTemplates );
+        register_metabox_event( pageTemplateDropdown, 'change', getTemplates );
+    };
 
     //======================================================================
     // TYPECHECKING UTILITY METHODS
@@ -265,9 +276,6 @@ var metaboxControl = (function( window ) {
     };
 
     var init = function() {
-
-        register_metabox_event( window, 'load', getTemplates );
-        register_metabox_event( pageTemplateDropdown, 'change', getTemplates );
         fetchWPTemplate();
     };
 
@@ -283,6 +291,8 @@ var metaboxControl = (function( window ) {
     };
 
 }(window));
+
+document.addEventListener('DOMcontentLoaded', metaboxControl.initialize());
 
 // TODO
 //get list of default WordPress metaboxes
