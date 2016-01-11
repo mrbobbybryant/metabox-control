@@ -19,9 +19,9 @@ function get_registered_templates() {
 		wp_send_json_error( 'Invalid Nonce' );
 	}
 
-	$test = 0;
+	$registered_templates = get_option( 'metabox_control_current_templates' );
 
-	wp_send_json_success('working');
+	wp_send_json_success($registered_templates);
 }
 
 add_action( 'wp_ajax_get_registered_templates', __NAMESPACE__ . '\get_registered_templates' );
