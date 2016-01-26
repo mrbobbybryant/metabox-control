@@ -19,34 +19,16 @@ Metabox Control allows you to specify which metaboxes belong to which page templ
 From there Metabox Control will handle the showing and hiding of your metaboxes. Which is based on the currently selected template from the page template dropdown. So lets look at some code.
 
 ## Installation
-Clone or download this repo to your WordPress project.
+Clone or download this repo to your WordPress project's plugin directory.
 ```sh
 $ git clone https://github.com/mrbobbybryant/metabox-control.git
 ```
-**Dependencies:**
-I plan to set this repo up to use Bower. However, for now you will need to also download one dependency. *Lodash*.
-[Download lodash](https://raw.githubusercontent.com/lodash/lodash/3.10.1/lodash.min.js)
-
-Once that is done, simply enqueue ```metabox-control.js``` and ```lodash.min.js```, just like any other WordPress JS file. It might look something like this,
-```php
-function my_admin_enqueue_scripts() {
-	$post_type = get_post_type();
-
-	if ( 'page' === $post_type ) {
-		wp_enqueue_script( 'mb-control', get_template_directory_uri() . '/js/vendor/mb-control/metabox-control.js', array( 'underscore', 'lodash' ), '0.0.1', true );
-		wp_enqueue_script( 'lodash', "https://cdn.rawgit.com/lodash/lodash/3.0.1/lodash.min.js", array( 'underscore' ), '3.0.1' ,true );
-	}
-
-	wp_enqueue_script( 'admin-main-js', get_template_directory_uri() . '/js/admin-main.js', array( 'mb-control' ), '20160104', true  );
-}
-
-add_action( 'admin_enqueue_scripts', 'my_admin_enqueue_scripts' );
-```
-As you can see I have specified lodash and underscore as dependencies for the ```metabox-control.js``` file. I have also shown in my example how you should also enqueue your theme's admin js file. It also has *mb-control* as a dependency. This will tell WordPress that your admin file depends on ```metabox-control.js```. For more information on how to properly enqueue js files in WordPress, check out the [WordPress Codex](https://codex.wordpress.org/Function_Reference/wp_enqueue_script).
-
-Now you are all setup! If you have been developing for a while, then this installation will look fairly standard.
+Once you have the code downloaded, simply activate the plugin just like normal.
 
 ## API Documentation
+Metabox Control provides both a Javscript and a PHP API for registering Templates and their associted metaboxes.
+
+###Javascript
 #### metaboxControl.addTemplate( templateName, array( metabox-ids ) );
 > This method is used to register a page template
 > and it's associated metaboxes.
@@ -76,19 +58,57 @@ metaboxControl.removeTemplate( templateName );
 metaboxControl.getTemplates();
 ```
 
-#### metaboxControl.initialize( ) );
-> This method does not except any parameters. This method is responsible for actually registering eventListeners for all the templates you have added. It should be called after all templates have been registered. See usage for more info.
+#### metaboxControl.getTemplates( ) );
+> This method does not except any parameters. It is simply a helper function for quickly see which WordPress page template is currently selected.
 
+- **Returns** - The currently selected WordPress page template.
 ```js
-metaboxControl.initialize();
+metaboxControl.currentTemplate();;
 ```
+
+## API Documentation( Continued )
+###PHP
+The PHP code has been namespaced. The Public API uses the namespace ```metabox_control\API;```.
+
+#### add_metabox_template( $template, $metaboxes );
+> This method is used to register a page template
+> and it's associated metaboxes. It will also check if the request template
+> has already been registered. If so it will call `update_metabox_templates``` internally.
+
+- ```template``` - (string) - **required** - This is the php file name. For example, ```page-template-one.php```
+- ```metaboxes``` - (array) - **required** - An array of all the metabox ids you wish to show and hide, depending on this page template. These IDs are the same ones used when registering a metabox. When registering a metabox, this will be the first parameter passed into ```add_meta_box()```.
+- **Returns** - Boolean -or- Exception.
+```php
+\metabox_control\API\add_metabox_template( 'page-two.php', array('mb_two') );
+```
+
+#### remove_metabox_template( $template );
+> This method is used to remove a previously registers template
+
+- ```template``` - (string) - **required** - This is the php file name. For example, ```page-template-one.php```
+- **Returns** - Boolean -or- Exception.
+```php
+\metabox_control\API\remove_metabox_template( 'page-two.php' );
+```
+
+#### update_metabox_template( $metaboxes, $exists = null );
+> This method is used to update a previously registers template.
+
+- ```template``` - (string) - **required** - This is the php file name. For example, ```page-template-one.php```
+- ```metaboxes``` - (array) - **required** - This is an array of metabox id.
+- ``exists``` - (bool) - **optional** - This argument is used internally by ```add_metabox_template()``` when it determines
+a template has already been entered.
+- **Returns** - Boolean -or- Exception.
+```php
+\metabox_control\API\remove_metabox_template( 'page-two.php', array('mb_two') );
+```
+
 ## Usage
 
-In the example below I will be simiulating the adding of two page template ( **page-one.php** and **page-two.php** ), as well as a few metabox( **mb_one**, **mb_three** and **mb_two** ). Again these will depend on your implementation, and this simply an example.
+In the example below I will be simiulating the adding of two page templates in Javascript ( **page-one.php** and **page-two.php** ), as well as a few metabox( **mb_one**, **mb_three** and **mb_two** ). Again these will depend on your implementation, and is simply an example.
 ```js
 metaboxControl.addTemplate( 'page-one.php', ['mb_one', 'mb_three']);
 metaboxControl.addTemplate( 'page-two.php', ['mb_two']);
-metaboxControl.initialize();
 ```
 
 That's it! Now when you go to Create or Edit a WordPress Page, those metaboxes will only be visible when you have selected the associated page template.
