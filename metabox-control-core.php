@@ -31,23 +31,13 @@ function mb_control_init() {
 }
 
 /**
- * Activate the plugin
- */
-function mb_control_activate() {
-	// First load the init scripts in case any rewrite functionality is being loaded
-	mb_control_init();
-
-}
-register_activation_hook( __FILE__, __NAMESPACE__ . '\mb_control_activate' );
-
-/**
  * Deactivate the plugin
  * Uninstall routines should be in uninstall.php
  */
 function wp_autosearch_deactivate() {
 	delete_option( 'metabox_control_current_templates' );
 }
-register_deactivation_hook( __FILE__, __NAMESPACE__ . '\mb_control_deactivate' );
+\register_deactivation_hook( __FILE__, __NAMESPACE__ . '\mb_control_deactivate' );
 
 /**
  * Kicks Everything Off

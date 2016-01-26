@@ -14,7 +14,7 @@ var metaboxControl = (function( window ) {
         /**
          * Check to see if we got any Templates from the WordPress Database.
          */
-        if ( initialStateData.data ) {
+        if ( initialStateData ) {
             return setState( { event: 'INITIAL_STATE', initialObject : initialStateData.data } );
         }
 
@@ -129,7 +129,7 @@ var metaboxControl = (function( window ) {
         request.onload = function() {
             if ( request.status >= 200 && request.status < 400 ) {
                 var response = request.responseText;
-                setInitialState( response );
+                setInitialState( JSON.parse(response) );
             } else {
                 console.log( 'Unable to complete request ' + request.status );
             }
