@@ -10,6 +10,11 @@ var metaboxControl = (function( window ) {
     // STATE MANAGEMENT
     //======================================================================
 
+    /**
+     * Sets the Initial State in Metabox Control
+     * @param initialStateData
+     * @returns {boolean}
+     */
     var setInitialState = function( initialStateData ) {
         /**
          * Check to see if we got any Templates from the WordPress Database.
@@ -21,6 +26,10 @@ var metaboxControl = (function( window ) {
         return false;
     };
 
+    /**
+     * Routes requests to update the state of Metabox control
+     * @param stateRequest
+     */
     var setState = function( stateRequest ) {
         /**
          * Typecheck Input
@@ -40,6 +49,12 @@ var metaboxControl = (function( window ) {
         }
     };
 
+    /**
+     * Checks to see if changes have actually happened. This insures state is only updated
+     * when actually needed.
+     * @param newState
+     * @returns {boolean|*}
+     */
     var checkState = function( newState ) {
         /**
          * Typecheck Input
@@ -49,6 +64,12 @@ var metaboxControl = (function( window ) {
         return _.isEqual( newState, registeredTemplates );
     };
 
+    /**
+     * Actually updates the internal state object.
+     * @param newState
+     * @param callback
+     * @param update
+     */
     var updateState = function( newState, callback, update ) {
 
         /**

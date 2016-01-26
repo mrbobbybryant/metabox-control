@@ -1,11 +1,10 @@
 <?php
 /**
- * Summary (no period for file headers)
+ * External API
  *
- * Description. (use period)
+ * Description. Primary methods designed for external use by users.
  *
- * @link URL
- * @since x.x.x (if available)
+ * @since 0.0.1
  *
  * @package WordPress
  * @subpackage Component
@@ -14,6 +13,15 @@ namespace metabox_control\API;
 use metabox_control\Utils as Utils;
 use metabox_control\API\Internal as Internal;
 
+/**
+ * Function ensures this is a new template, and if so, adds it to metabox control.
+ * However if it determines that the template already exists, it call update_metabox_template internally.
+ * @param $template - string - required
+ * @param $metaboxes - array - required
+ *
+ * @return bool|\Exception
+ * @throws \Exception
+ */
 function add_metabox_template( $template, $metaboxes ) {
 	//TypeCheck
 	Utils\error_check( 'is_string', 'This function expects a string', $template );
@@ -43,6 +51,13 @@ function add_metabox_template( $template, $metaboxes ) {
 	return Internal\update_metabox_option( $new_templates_array );
 }
 
+/**
+ * Attempts to find the requested template, and removes it from metabox control if its found.
+ * @param $template - string - required
+ *
+ * @return mixed
+ * @throws \Exception
+ */
 function remove_metabox_template( $template ) {
 	//typecheck
 	Utils\error_check( 'is_string', 'This function expects a string', $template );
@@ -63,6 +78,16 @@ function remove_metabox_template( $template ) {
 	return Internal\update_metabox_option( $new_templates_array );
 }
 
+/**
+ * This function is used to update a template and it's metaboxes which has already been registers.
+ * Checks to see if the template does in fact exist. Once satisfied, update metabox option.
+ * @param $template - string - required
+ * @param $metaboxes - array - required
+ * @param null $exists - bool - used internally by add_metabox_template
+ *
+ * @return bool
+ * @throws \Exception
+ */
 function update_metabox_template( $template, $metaboxes, $exists = null ) {
 	Utils\error_check( 'is_string', 'This function expects a string', $template );
 	Utils\error_check( 'is_array', 'This function expects a string', $metaboxes );
