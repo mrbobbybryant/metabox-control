@@ -1,0 +1,27 @@
+{
+  "name": "developwithwp/metabox-control",
+  "description": "A Library which handles conditionally showing and hide metaboxes on a per template bases.",
+  "version": "0.9.0",
+  "type": "package",
+  "keywords": [],
+  "homepage": "https://github.com/mrbobbybryant/metabox-control",
+  "license": "GPL-2.0+",
+  "author": {
+    "name": "Bobby Bryant",
+    "email": "bobby@developwithwp.com",
+    "homepage": "Bobby Bryant",
+    "role": "Developer"
+  },
+  "minimum-stability": "dev",
+  "repositories" : [
+    {
+      "type" : "composer",
+      "url"  : "https://wpackagist.org"
+    }
+  ],
+  "require": {},
+  "require-dev": {},
+  "autoload": {
+    "files": [ "metabox-control.php" ]
+  }
+}

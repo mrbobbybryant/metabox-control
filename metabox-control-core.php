@@ -1,24 +1,26 @@
 <?php
-/**
- * Plugin Name: Metabox Control
- * Plugin URI:  https://github.com/mrbobbybryant/metabox-control
- * Description: Provides a Javascript and PHP API to conditionally show metaboxes on the page post type based on the selected Page Template.
- * Version:     0.1.0
- * Author:      Bobby Bryant
- * Author URI:  https://twitter.com/mrbobbybryant
- * License:     GPLv2+
- * Text Domain: mb_control
- * Domain Path: /languages
- */
-
 namespace metabox_control;
 
 /**
  * Useful Global Constants
  */
-define( 'MBCONTROL_VERSION', '0.1.0' );
-define( 'MBCONTROL_URL',     plugin_dir_url( __FILE__ ) );
-define( 'MBCONTROL_PATH',    dirname( __FILE__ ) . '/' );
+ if ( !defined( 'MBCONTROL_PATH' ) ) {
+ 	define( 'MBCONTROL_PATH', dirname( __FILE__ ) );
+ }
+
+ if ( !defined( 'MBCONTROL_URL' ) ) {
+ 	define( 'MBCONTROL_URL', get_stylesheet_directory_uri() . '/vendor' );
+ }
+
+ if ( !defined( 'MBCONTROL_VERSION' ) ) {
+ 	define( 'MBCONTROL_VERSION', '0.5.0' );
+ }
+
+ /**
+  * Kicks Everything Off
+  */
+ add_action( 'init', __NAMESPACE__ . '\mb_control_init' );
+ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\load_mb_control_scripts' );
 
 /**
  * Load all internal PHP Files
@@ -29,21 +31,6 @@ function mb_control_init() {
 	require_once( MBCONTROL_PATH . '/includes/metabox-control-internal-api.php' );
 	require_once( MBCONTROL_PATH . '/includes/metabox-control-ajax.php' );
 }
-
-/**
- * Deactivate the plugin
- * Uninstall routines should be in uninstall.php
- */
-function wp_autosearch_deactivate() {
-	delete_option( 'metabox_control_current_templates' );
-}
-\register_deactivation_hook( __FILE__, __NAMESPACE__ . '\mb_control_deactivate' );
-
-/**
- * Kicks Everything Off
- */
-add_action( 'init', __NAMESPACE__ . '\mb_control_init' );
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\load_mb_control_scripts' );
 
 /**
  * Load Required Javascript Files
