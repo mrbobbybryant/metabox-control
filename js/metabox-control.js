@@ -143,7 +143,7 @@ var metaboxControl = (function( window ) {
     };
 
     var fetchWPTemplate = function() {
-        var URL = 'http://sandbox.dev/' + ajaxurl + '?action=get_registered_templates&security=' + mbControl.security;
+        var URL = mbControl.baseURL + ajaxurl + '?action=get_registered_templates&security=' + mbControl.security;
         var request = new XMLHttpRequest();
         request.open('GET', URL, true);
 
