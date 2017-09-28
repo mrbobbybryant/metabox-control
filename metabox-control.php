@@ -13,7 +13,7 @@ namespace metabox_control;
  }
 
  if ( !defined( 'MBCONTROL_VERSION' ) ) {
- 	define( 'MBCONTROL_VERSION', '0.5.0' );
+ 	define( 'MBCONTROL_VERSION', '0.1.0' );
  }
 
  /**
@@ -40,8 +40,8 @@ function load_mb_control_scripts() {
 	$type = apply_filters( 'set_metabox_control_post_type', 'page' );
 
 	if ( $type === $post_type ) {
-		wp_enqueue_script( 'mb-control', MBCONTROL_URL . '/js/metabox-control.js', array( 'underscore', 'lodash' ), '0.0.1', true );
-		wp_enqueue_script( 'lodash', MBCONTROL_URL . "/vendor/lodash.min.js", array( 'underscore' ), '3.0.1' ,true );
+		wp_enqueue_script( 'mb-control', MBCONTROL_URL . '/developwithwp/metabox-control/js/metabox-control.js', array( 'underscore', 'lodash' ), '0.0.1', true );
+		wp_enqueue_script( 'lodash', MBCONTROL_URL . "/developwithwp/metabox-control/vendor/lodash.min.js", array( 'underscore' ), '3.0.1' ,true );
 		wp_localize_script( 'mb-control', 'mbControl', array(
 				'security'  =>  wp_create_nonce( 'metabox-control-nonce' )
 		) );
