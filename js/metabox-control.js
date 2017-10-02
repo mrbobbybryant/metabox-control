@@ -139,7 +139,9 @@ var metaboxControl = (function( window ) {
     };
 
     var getElementsById = function( id ) {
-        return [ document.getElementById( id ) ];
+        return id.map( function( el ) {
+            return document.getElementById( el );
+        } );
     };
 
     var fetchWPTemplate = function() {
